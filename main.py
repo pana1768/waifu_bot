@@ -1,5 +1,5 @@
-import Bot.bot
-Bot.bot.main()
+import bot.bot
+bot.bot.main()
 
 
 

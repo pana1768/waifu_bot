@@ -1,4 +1,4 @@
-import Bot.buttons as buttons
+import bot.buttons as buttons
 from database.db_functions import Database
 from telebot.async_telebot import AsyncTeleBot
 from telebot.asyncio_handler_backends import State, StatesGroup

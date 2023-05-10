@@ -1,6 +1,18 @@
 import json
 import sqlite3
 import asyncio
+from io import StringIO
+from PIL import Image
+import numpy as np
+import base64
+
+
+def convert_to_binary(file):
+    fin = open(file, "rb")
+    img = fin.read()
+    return img
+    fin.close()
+
 
 class Database:
     con = sqlite3.connect('database/waifubot.db')
@@ -43,3 +55,23 @@ class Database:
             rez = rez[0][0].split(';')
             rez_json = [json.loads(i) for i in rez]
             return rez_json
+
+    @classmethod
+    def upload_photo(cls,file):
+        blob = convert_to_binary(file)
+        blob = sqlite3.Binary(blob)
+        print(blob)
+        cls.cur.execute(f"INSERT INTO cards(photo_lvl1) VALUES (?)", (blob,))
+        cls.con.commit()
+
+    @classmethod
+    def take_photo(cls,id,lvl):
+        res = cls.cur.execute(f"SELECT photo_lvl{lvl} FROM cards WHERE id == {id}")
+        res = res.fetchone()[0]
+        return res
+
+
+
+
+
+
